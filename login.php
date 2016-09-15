@@ -27,7 +27,7 @@ require_once('function/function.php');
        </tr>
        <tr>
          <td> Password : </td>
-         <td> <input type="text" name="password" value=""></td>
+         <td> <input type="password" name="password" value=""></td>
        </tr>
        <tr>
          <td> <input type="submit" name="submit" value="Sign In!"></td>
@@ -53,6 +53,7 @@ require_once('function/function.php');
        if ($hasil['username'] == $username AND $hasil['password'] == $password) {
          $_SESSION['username'] = $username;
          $_SESSION['level'] = $hasil['level'];
+         $_SESSION['nis'] = $hasil['nis'];
          header('Location:index.php');
        } else {
          ?> <script type="text/javascript"> alert("Username / Password Salah");</script><?php

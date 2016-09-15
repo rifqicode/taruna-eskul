@@ -17,9 +17,6 @@ if ($_SESSION['level'] == 'user') {
 
 
 
-$hasil = tampilkelas();
-$hasil2 = tampiljurusan();
-
 
  ?>
 
@@ -77,8 +74,8 @@ $hasil2 = tampiljurusan();
 		</form>
 		<ul class="nav menu">
       <li><a href="index.php"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
-      <li class="active"><a href="input.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data Siswa</a></li>
-			<li><a href="inputguru.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data Guru</a></li>
+      <li><a href="input.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data Siswa</a></li>
+			<li class="active"><a href="input2.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data Guru</a></li>
 			<li><a href="charts.php"><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg> Penambahan Eskull </a></li>
 			<li><a href="tables.php"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg>Lihat Data</a></li>
 			<li><a href="forms.php"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg> Forms </a></li>
@@ -102,62 +99,32 @@ $hasil2 = tampiljurusan();
 		<div class="row">
 			<div class="col-md-8">
 				<div class="panel panel-default">
-					<div class="panel-heading"><svg class="glyph stroked email"><use xlink:href="#stroked-email"></use></svg> Registrasi </div>
+					<div class="panel-heading"><svg class="glyph stroked email"><use xlink:href="#stroked-email"></use></svg> Registrasi Guru</div>
 					<div class="panel-body">
 						<form class="form-horizontal" method="post">
 							<fieldset>
                 <div class="form-group">
-                  <label class="col-md-3 control-label" for="nama">Nomer Induk Siswa</label>
+                  <label class="col-md-3 control-label" for="nama">Nomer Induk Guru </label>
                   <div class="col-md-9">
-                  <input id="nis_siswa" name="nis_siswa" type="text" placeholder="Masukan NIS" class="form-control" required>
+                  <input id="nis_guru" name="nis_guru" type="text" placeholder="Masukan NIS" class="form-control" required pattern="[0-9]{1,999}">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-md-3 control-label" for="nama">Nomer Induk Siswa</label>
+                  <label class="col-md-3 control-label" for="nama">Nomer Induk Guru </label>
                   <div class="col-md-9">
-                  <input id="nis" name="nis" type="text" placeholder="Ketik Ulang NIS " class="form-control" required>
+                  <input id="nis" name="nis" type="text" placeholder="Ketik Ulang NIS" class="form-control" required pattern="[0-9]{1,999}">
                   </div>
                 </div>
-								<!-- Nama Lengkap input-->
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="nama">Nama Lengkap </label>
-									<div class="col-md-9">
-									<input id="nama" name="nama" type="text" placeholder="Nama Lengkap" class="form-control" required>
-									</div>
-								</div>
-								<!-- Name input-->
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="">Nama Panggilan </label>
-									<div class="col-md-9">
-									<input id="" name="" type="text" placeholder="Nama Panggilan" class="form-control" required>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="kelas">Kelas</label>
-									<div class="col-md-9">
-									<select name="kelas" required>
-										<option></option>
-										<?php while ($row = mysqli_fetch_assoc($hasil)) {?>
-												<option value="<?php echo $row['id_kelas']; ?>  "> <?php echo $row['kelas']; ?></option>
-										<?php } ?>
-									</select>
-									</div>
-								</div>
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="kelas">Jurusan</label>
-										<div class="col-md-9">
-											<select name="jurusan" required>
-													<option></option>
-													<?php while ($row2 = mysqli_fetch_assoc($hasil2)) { ?>
-														<option value="<?php echo $row2['id_jurusan']; ?>"> <?php echo $row2['jurusan']; ?></option>
-												  <?php } ?>
-											</select>
-									</div>
-								</div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="nama">Nama Guru </label>
+                  <div class="col-md-9">
+                  <input id="nama_guru" name="nama_guru" type="text" placeholder="Masukan NIS" class="form-control" required>
+                  </div>
+                </div>
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Email</label>
 									<div class="col-md-9">
-									<input id="email" name="email" type="text" placeholder="Email" class="form-control" required>
+									<input id="email_guru" name="email_guru" type="text" placeholder="Email" class="form-control" required>
 									</div>
 								</div>
                 <div class="form-group">
@@ -182,13 +149,13 @@ $hasil2 = tampiljurusan();
 								<?php
 
 									if (isset($_POST['submit'])) {
-                    $nis_siswa = $_POST['nis'];
-								    if (cek_nis_siswa($nis_siswa) == true){
-    									input($_POST['nama'], $_POST['nis_siswa'] , $_POST['kelas'], $_POST['jurusan'] , $_POST['email']);
-    								}else {
-    								  echo "Nis Sudah Terdaftar";
-							     }
-                 }
+
+								if (dataguru($_POST['nis_guru'] , $_POST['nama_guru'] , $_POST['email_guru'])){
+									echo "Tambah Data Berhasil"."<br>";
+								}else{
+									echo "Tambah data gagal";
+								}
+							}
                 if (isset($_POST['submit'])) {
                   error_reporting(0);
                   $username = $_POST['username'];
@@ -196,14 +163,14 @@ $hasil2 = tampiljurusan();
                   $nis = $_POST['nis'];
                   $level = $_POST['level'];
                   if ($level == NULL) {
-                    $level = 'user';
+                    $level = 'guru';
                   }
-                  if (cek_username($username) == true) {
-                      buatakun($nis , $username , $password , $level);
+                  if (buatakun($nis , $username , $password , $level)) {
+                    echo "Buat Akun Berhasil";
                   } else {
-                    echo "Username Sudah Terdaftar";
+                    echo "Buat Akun Gagal";
+                  }
                 }
-              }
 								 ?>
 
 							</fieldset>

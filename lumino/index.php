@@ -9,10 +9,17 @@ if ($_SESSION['username'] == NULL) {
 }
 
 if ($_SESSION['level'] == 'user') {
-  header('location:index.php');
+  header('location:../index.php');
 } elseif ($_SESSION['level'] == 'guru') {
-  header('location:index.php');
+  header('location:../index.php');
 }
+
+$hitungekskul = hitungekskul();
+$hasilekskul = mysqli_fetch_assoc($hitungekskul);
+$hasilguru = hitungguru();
+$hasil1 = mysqli_fetch_assoc($hasilguru);
+$hasiluser = hitunguser();
+$hasil = mysqli_fetch_assoc($hasiluser);
 
  ?>
 <!DOCTYPE html>
@@ -69,7 +76,8 @@ if ($_SESSION['level'] == 'user') {
 		</form>
 		<ul class="nav menu">
       <li class="active"><a href="index.php"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
-			<li><a href="input.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data </a></li>
+      <li><a href="input.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data Siswa</a></li>
+			<li><a href="inputguru.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data Guru</a></li>
 			<li><a href="charts.php"><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg> Penambahan Eskull </a></li>
 			<li><a href="tables.php"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg>Lihat Data</a></li>
 			<li><a href="forms.php"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg> Forms </a></li>
@@ -99,8 +107,8 @@ if ($_SESSION['level'] == 'user') {
 							<svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large">120</div>
-							<div class="text-muted"> Orders</div>
+							<div class="large"><?php echo $hasilekskul['jumlah']; ?></div>
+							<div class="text-muted">Ekskul</div>
 						</div>
 					</div>
 				</div>
@@ -109,11 +117,11 @@ if ($_SESSION['level'] == 'user') {
 				<div class="panel panel-orange panel-widget">
 					<div class="row no-padding">
 						<div class="col-sm-3 col-lg-5 widget-left">
-							<svg class="glyph stroked empty-message"><use xlink:href="#stroked-empty-message"></use></svg>
+							<svg class="glyph stroked empty-message"><use xlink:href="#stroked-male-user"></use></svg>
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large">52</div>
-							<div class="text-muted">Comments</div>
+							<div class="large"><?php echo $hasil1['jumlah']; ?></div>
+							<div class="text-muted">Jumlah Guru</div>
 						</div>
 					</div>
 				</div>
@@ -125,8 +133,8 @@ if ($_SESSION['level'] == 'user') {
 							<svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large">24</div>
-							<div class="text-muted"> Users</div>
+							<div class="large"><?php echo $hasil['jumlah']; ?></div>
+							<div class="text-muted"> Jumlah Users </div>
 						</div>
 					</div>
 				</div>

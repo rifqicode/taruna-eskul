@@ -9,11 +9,15 @@ if ($_SESSION['username'] == NULL) {
 }
 
 if ($_SESSION['level'] == 'user') {
-  header('location:index.php');
+  header('location:../index.php');
 } elseif ($_SESSION['level'] == 'guru') {
-  header('location:index.php');
+  header('location:../index.php');
 }
 
+$hasil = tampil();
+$hasil2 = lihat_ekskul();
+$hasil3 = tampil_akun();
+$guru = tampilguru();
  ?>
 <!DOCTYPE html>
 <html>
@@ -69,8 +73,9 @@ if ($_SESSION['level'] == 'user') {
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li><a href="index.php"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
-			<li><a href="input.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data </a></li>
+      <li><a href="index.php"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
+      <li><a href="input.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data Siswa</a></li>
+			<li><a href="inputguru.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data Guru</a></li>
 			<li><a href="charts.php"><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg> Penambahan Eskull </a></li>
 			<li class="active"><a href="tables.php"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg>Lihat Data</a></li>
 			<li><a href="forms.php"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg> Forms </a></li>
@@ -87,7 +92,7 @@ if ($_SESSION['level'] == 'user') {
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Tables</h1>
+				<h1 class="page-header"> All Data </h1>
 			</div>
 		</div><!--/.row-->
 
@@ -95,51 +100,124 @@ if ($_SESSION['level'] == 'user') {
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Advanced Table</div>
+					<div class="panel-heading">Tabel Data Siswa</div>
 					<div class="panel-body">
-						<table data-toggle="table" data-url="tables/data1.json"  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+						<table data-toggle="table" data-url=""  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
 						    <thead>
 						    <tr>
-						        <th data-field="state" data-checkbox="true" >Item ID</th>
-						        <th data-field="id" data-sortable="true">Item ID</th>
-						        <th data-field="name"  data-sortable="true">Item Name</th>
-						        <th data-field="price" data-sortable="true">Item Price</th>
+						        <th data-field="id" data-checkbox="true" >ID</th>
+                    <th data-field="nama" data-sortable="true">Nama</th>
+						        <th data-field="kelas" data-sortable="true">Kelas</th>
+						        <th data-field="jurusan"  data-sortable="true">Jurusan</th>
+                    <th data-field="email" data-sortable="true">Email</th>
+						        <th data-field="level" data-sortable="true">Level</th>
 						    </tr>
 						    </thead>
+                <?php while ($row = mysqli_fetch_assoc($hasil)) { ?>
+              <tr>
+                  <td></td>
+                  <td><?php echo $row['nama']; ?></td>
+                  <td><?php echo $row['kelas']; ?></td>
+                  <td><?php echo $row['jurusan']; ?></td>
+                  <td><?php echo $row['email']; ?></td>
+                  <td><?php echo $row['level']; ?></td>
+              </tr>
+                <?php } ?>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div><!--/.row-->
-		<div class="row">
-			<div class="col-md-6">
+    <div class="row">
+			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Basic Table</div>
+					<div class="panel-heading">Tabel Data Guru</div>
 					<div class="panel-body">
-						<table data-toggle="table" data-url="tables/data2.json" >
+						<table data-toggle="table" data-url=""  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
 						    <thead>
 						    <tr>
-						        <th data-field="id" data-align="right">Item ID</th>
-						        <th data-field="name">Item Name</th>
-						        <th data-field="price">Item Price</th>
+						        <th data-field="id_guru" data-checkbox="true" >ID</th>
+                    <th data-field="nama" data-sortable="true">Nama Guru</th>
+						        <th data-field="kelas" data-sortable="true">Email</th>
 						    </tr>
 						    </thead>
+                <?php while ($row4 = mysqli_fetch_assoc($guru)) { ?>
+              <tr>
+                  <td></td>
+                  <td><?php echo $row4['nama_guru']; ?></td>
+                  <td><?php echo $row4['email_guru']; ?></td>
+              </tr>
+                <?php } ?>
 						</table>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
+		</div><!--/.row-->
+    <div class="row">
+			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Styled Table</div>
+					<div class="panel-heading">List Ekskul</div>
 					<div class="panel-body">
-						<table data-toggle="table" id="table-style" data-url="tables/data2.json" data-row-style="rowStyle">
+						<table data-toggle="table" data-url=""  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
 						    <thead>
 						    <tr>
-						        <th data-field="id" data-align="right" >Item ID</th>
-						        <th data-field="name" >Item Name</th>
-						        <th data-field="price" >Item Price</th>
+						        <th data-field="id_ekskul" data-checkbox="true" >ID</th>
+                    <th data-field="nama_ekskul" data-sortable="true">Nama Ekskul</th>
+						        <th data-field="deskripsi" data-sortable="true">Deskripsi</th>
 						    </tr>
 						    </thead>
+                <?php while ($row2 = mysqli_fetch_assoc($hasil2)) { ?>
+              <tr>
+                  <td></td>
+                  <td><?php echo $row2['nama_ekskul']; ?></td>
+                  <td><?php echo $row2['deskripsi']; ?></td>
+              </tr>
+                <?php } ?>
+						</table>
+					</div>
+				</div>
+			</div>
+      <div class="row">
+  			<div class="col-lg-12">
+  				<div class="panel panel-default">
+  					<div class="panel-heading">List User</div>
+  					<div class="panel-body">
+  						<table data-toggle="table" data-url=""  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+  						    <thead>
+  						    <tr>
+  						        <th data-field="id_akun" data-checkbox="true" >ID</th>
+                      <th data-field="username" data-sortable="true">Username</th>
+  						        <th data-field="level" data-sortable="true">Level</th>
+  						    </tr>
+  						    </thead>
+                  <?php while ($row3 = mysqli_fetch_assoc($hasil3)) { ?>
+                <tr>
+                  <?php
+                  if ($row3['level'] == 'admin') {
+                    echo '
+                      <td class="danger"></td>
+                      <td class="danger"> '.$row3['username'].' </td>
+                      <td class="danger">'.$row3['level'].'</td>';
+                  } elseif ($row3['level'] == 'guru') {
+                    echo '
+                      <td class="warning"></td>
+                      <td class="warning"> '.$row3['username'].' </td>
+                      <td class="warning">'.$row3['level'].'</td>';
+                  } else {
+                    echo '
+                      <td class="success"></td>
+                      <td class="success"> '.$row3['username'].' </td>
+                      <td class="success">'.$row3['level'].'</td>';
+                  }
+                   ?>
+                </tr>
+                  <?php } ?>
+  						</table>
+  					</div>
+  				</div>
+  			</div>
+  		</div><!--/.row-->
+		</div><!--/.row-->
 						</table>
 						<script>
 						    $(function () {

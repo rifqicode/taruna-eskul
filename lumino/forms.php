@@ -9,9 +9,9 @@ if ($_SESSION['username'] == NULL) {
 }
 
 if ($_SESSION['level'] == 'user') {
-  header('location:index.php');
+  header('location:../index.php');
 } elseif ($_SESSION['level'] == 'guru') {
-  header('location:index.php');
+  header('location:../index.php');
 }
 
  ?>
@@ -69,7 +69,8 @@ if ($_SESSION['level'] == 'user') {
 		</form>
 		<ul class="nav menu">
       <li><a href="index.php"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
-			<li><a href="input.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data </a></li>
+      <li><a href="input.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data Siswa</a></li>
+			<li><a href="inputguru.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Input Data Guru</a></li>
 			<li><a href="charts.php"><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg> Penambahan Eskull </a></li>
 			<li><a href="tables.php"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg>Lihat Data</a></li>
 			<li class="active"><a href="forms.php"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg> Forms </a></li>
