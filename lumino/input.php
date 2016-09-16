@@ -5,8 +5,9 @@ session_start();
 require_once('../db/connect.php');
 require_once('../function/function.php');
 
+
 if ($_SESSION['username'] == NULL) {
-  header('location:../login.php');
+  header('location:../login/');
 }
 
 if ($_SESSION['level'] == 'user') {

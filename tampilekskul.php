@@ -4,7 +4,7 @@ require_once('db/connect.php');
 require_once('function/function.php');
 
 if ($_SESSION['username'] == NULL) {
-  header('location:login.php');
+  header('location:login/');
 }
 $nis_siswa = $_SESSION['nis'];
 $nis = $_SESSION['nis'];
