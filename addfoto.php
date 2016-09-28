@@ -59,8 +59,11 @@ $hasiluser = mysqli_fetch_assoc($namauser);
             <ul class="nav navbar-nav">
               <li class=""><a href="index.php">HOME <span class="sr-only">(current)</span></a></li>
               <li><a type="submit" href="mylist.php">MY EXTRACURRICULAR</a></li>
-              <li class="active"><a href="list.php">EXTRACURRICULAR LIST</a></li>
+              <li><a href="list.php">EXTRACURRICULAR LIST</a></li>
               <li ><a href="event.html">SCHOOL EVENT</a></li>
+              <?php if($_SESSION['level'] == 'admin') { ?>
+              <li ><a href="lumino">ADMIN MANAGEMENT</a></li>
+              <?php } ?>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li type="submit" class="profile-picture"><a><img src="images/<?php echo $hasilgambar['gambar']; ?>" width="40"

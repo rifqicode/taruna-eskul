@@ -2,9 +2,13 @@
 session_start();
 require_once('db/connect.php');
 require_once('function/function.php');
+
 if ($_SESSION['username'] == NULL) {
   header('location:login/');
 }
+
+$nis_siswa = $_SESSION['nis'];
+$nis = $_SESSION['nis'];
 
 $nis_siswa = $_SESSION['nis'];
 
@@ -15,135 +19,179 @@ $hasilsiswa = mysqli_fetch_assoc($siswa);
 $datakelas = tampilkelas();
 $datajurusan = tampiljurusan();
 
-$nis = $_SESSION['nis'];
 $gambar = ambilgambar($nis);
 $hasilgambar = mysqli_fetch_assoc($gambar);
+$namauser = tampil_siswa_id($nis_siswa);
+$hasiluser = mysqli_fetch_assoc($namauser);
 
+$hasil = tampilekskul();
  ?>
- <!DOCTYPE html>
- <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>STARBHAK - EXTRACURRICULAR</title>
+    <link rel="shortcut icon" href="images/tblogoicon.png">
 
- <!-- Mirrored from getbootstrap.com/examples/jumbotron/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Apr 2015 11:55:32 GMT -->
- <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
- <head>
-     <meta charset="utf-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-     <meta name="description" content="">
-     <meta name="author" content="">
-     <link rel="icon" href="../../favicon.ico">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
-     <title>Starbhak -- Ekskul </title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald|Raleway" rel="stylesheet">
+    <link href="style/customlist.css" rel="stylesheet">
+    <link href="css/cfont-awesome.min" rel="stylesheet">
 
-     <!-- Bootstrap core CSS -->
-     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-     <!-- Custom styles for this template -->
-     <link href="jumbotron.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-     <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+  </head>
+  <body>
 
-     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-     <!--[if lt IE 9]>
-       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-     <![endif]-->
-   </head>
+    <nav>
+     <nav class=" navbar-default navbar-fixed-top">
+  <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header2">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-   <body>
+            <ul class="nav navbar-nav">
+              <li class=""><a href="index.php">HOME <span class="sr-only">(current)</span></a></li>
+              <li><a type="submit" href="mylist.php">MY EXTRACURRICULAR</a></li>
+              <li><a href="list.php">EXTRACURRICULAR LIST</a></li>
+              <li ><a href="event.html">SCHOOL EVENT</a></li>
+              <?php if($_SESSION['level'] == 'admin') { ?>
+              <li ><a href="lumino">ADMIN MANAGEMENT</a></li>
+              <?php } ?>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li type="submit" class="profile-picture"><a><img src="images/<?php echo $hasilgambar['gambar']; ?>" width="40"
+                  height="40"></a></li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $hasiluser['nama']; ?> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="addfoto.php">Change Avatar</a></li>
+                      <li><a href="profile.php">Your Profile</a></li>
+                      <li><a href="settings.php">Setting Profile</a></li>
+                      <li><a href="proses/logout.php">LOGOUT</a></li>
+                    </ul>
+                  </li>
+            </ul>
+            </div><!-- /.navbar-collapse -->
+          </div>
+    </nav>
+      <nav class=" navbar-default navbar-fixed-top">
+  <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img src="images/tblogo.png" class="tblogo"></a>
 
-     <nav class="navbar navbar-inverse navbar-fixed-top">
-       <div class="container">
-         <div class="navbar-header">
-           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-             <span class="sr-only">Toggle navigation</span>
-             <span class="icon-bar"></span>
-             <span class="icon-bar"></span>
-             <span class="icon-bar"></span>
-           </button>
-           <a class="navbar-brand" href=""></a>
-         </div>
-         <div id="navbar" class="navbar-collapse collapse">
-               <ul class="nav navbar-nav">
-                 <li><a href="index.php">Home Page</a></li>
-                 <li><a href="list.php">List Ekskul</a></li>
-                 <li><a href="event.php">Event Sekolah</a></li>
-                 <?php if($_SESSION['level'] == 'admin') { ?> <li><a href="lumino/">Admin Panel</a></li> <?php } ?>
-               </ul>
-               <ul class="nav navbar-nav navbar-right">
-                 <li><a class="navbar-brand" href="addfoto.php"><img src="images/<?php echo $hasilgambar['gambar']; ?>" alt="" class="img-circle" height="30" width="35"></a></li>
-                 <li><a href="profile.php">Profiles</a></li>
-                 <li class="active"><a href="settings.php">Setting</a></li>
-                 <li><a href="proses/logout.php">Logout</a></li>
-               </ul>
+        </div>
+<br>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+<!-- /.container-fluid -->
+
+    </nav>
+
+
+
+          <!-- HEADER -->
+    <header class="container-fluid">
+      <div class="row">
+        <!--<img src="img/profile_picture.jpg" class="img-circle profile-picture">-->
+        <h2>MY EXTRACURRICULAR</h2>
+        <p>LET'S SHARE YOUR CREATION</p>
+      </div>
+    </header>
+          <!--/HEADER-->
+
+          <!-- MAIN CONTENT -->
+      <div class="main-content container">
+        <div class="row">
+          <hr class="featurette-divider">
+              <div class="col-md-4 portfolio-item">
+                <div class="container">
+                  <form method="post">
+                   <table class="table">
+                     <tr>
+                       <td> Nama </td>
+                       <td><input type="text" name="nama" value="" placeholder="<?php echo $hasilsiswa['nama']; ?>" required></td>
+                     </tr>
+                     <tr>
+                       <td> Kelas </td>
+                       <td><select name="kelas" required>
+                         <option value="<?php echo $hasilsiswa['id_kelas']; ?>"><?php echo $hasilsiswa['kelas']; ?></option>
+                           <?php
+                           $kls=$hasilsiswa['id_kelas'];
+                            while ($row = mysqli_fetch_assoc($datakelas)) { ?>
+
+                              <?php if ($row['id_kelas'] != $hasilsiswa['id_kelas']): ?>
+                                       <option value="<?php echo $row['id_kelas']; ?>"><?php echo $row['kelas']; ?></option>
+                              <?php endif; ?>
+                            <?php } ?>
+                       </select></td>
+                     </tr>
+                     <tr>
+                       <td> Jurusan </td>
+                       <td><select name="jurusan" required>
+                         <option value="<?php echo $hasilsiswa['id_jurusan']; ?>"><?php echo $hasilsiswa['jurusan']; ?></option>
+                           <?php
+                           $kls=$hasilsiswa['id_kelas'];
+                            while ($row2 = mysqli_fetch_assoc($datajurusan)) { ?>
+                              <?php if ($row2['id_jurusan'] != $hasilsiswa['id_jurusan']): ?>
+                                       <option value="<?php echo $row2['id_jurusan']; ?>"><?php echo $row2['jurusan']; ?></option>
+                              <?php endif; ?>
+                            <?php } ?>
+                       </select></td>
+                     </tr>
+                     <tr>
+                       <td> Email </td>
+                       <td><input type="text" name="email" value="" placeholder="<?php echo $hasilsiswa['email']; ?> " required></td>
+                     </tr>
+                     <tr>
+                       <td><input class="btn btn-primary" type="submit" name="submit" value="Edit"></td>
+                     </tr>
+                   </table>
+                   <?php
+
+                     if (isset($_POST['submit'])) {
+                       $nis_siswa = $_SESSION['nis'];
+                       $nama = $_POST['nama'];
+                       $kelas = $_POST['kelas'];
+                       $jurusan = $_POST['jurusan'];
+                       $email = $_POST['email'];
+                       if (settings($nis_siswa , $nama , $kelas , $jurusan , $email)) {
+                         ?> <a href="settings.php"> Edit Sukses </a> <?php
+                       } else {
+                         echo "Edit gagal";
+                       }
+                     }
+                    ?>
+                 </form>
+                </div>
              </div>
-       </div>
-     </nav>
-     <div class="jumbotron">
-       <div class="container">
-         <h1>Starbhak Ekskul</h1>
-         <p>Tempat anda untuk bergabung dengan ekskul ekskul disekolah </p>
-       </div>
-     </div>
-     <div class="container">
-       <form method="post">
-        <table class="table">
-          <tr>
-            <td> Nama </td>
-            <td><input type="text" name="nama" value="" placeholder="<?php echo $hasilsiswa['nama']; ?> "></td>
-          </tr>
-          <tr>
-            <td> Kelas </td>
-            <td><select name="kelas">
-              <option value="<?php echo $hasilsiswa['id_kelas']; ?>"><?php echo $hasilsiswa['kelas']; ?></option>
-                <?php
-                $kls=hasilsiswa['id_kelas'];
-                 while ($row = mysqli_fetch_assoc($datakelas)) { ?>
+          </hr>
+        </div>
+      </div>
+           <!--/MAIN CONTENT-->
 
-                   <?php if ($row['id_kelas'] != $hasilsiswa['id_kelas']): ?>
-                            <option value="<?php echo $row['id_kelas']; ?>"><?php echo $row['kelas']; ?></option>
-                   <?php endif; ?>
-                 <?php } ?>
-            </select></td>
-          </tr>
-          <tr>
-            <td> Jurusan </td>
-            <td><select name="jurusan">
-              <option value="<?php echo $hasilsiswa['id_jurusan']; ?>"><?php echo $hasilsiswa['jurusan']; ?></option>
-                <?php
-                $kls=hasilsiswa['id_kelas'];
-                 while ($row2 = mysqli_fetch_assoc($datajurusan)) { ?>
-                   <?php if ($row2['id_jurusan'] != $hasilsiswa['id_jurusan']): ?>
-                            <option value="<?php echo $row2['id_jurusan']; ?>"><?php echo $row2['jurusan']; ?></option>
-                   <?php endif; ?>
-                 <?php } ?>
-            </select></td>
-          </tr>
-          <tr>
-            <td> Email </td>
-            <td><input type="text" name="email" value="" placeholder="<?php echo $hasilsiswa['email']; ?> "></td>
-          </tr>
-          <tr>
-            <td><input class="btn btn-primary" type="submit" name="submit" value="Edit"></td>
-          </tr>
-        </table>
-        <?php
-
-          if (isset($_POST['submit'])) {
-            $nis_siswa = $_SESSION['nis'];
-            $nama = $_POST['nama'];
-            $kelas = $_POST['kelas'];
-            $jurusan = $_POST['jurusan'];
-            $email = $_POST['email'];
-            if (settings($nis_siswa , $nama , $kelas , $jurusan , $email)) {
-              header();
-            } else {
-              echo "Edit gagal";
-            }
-          }
-         ?>
-      </form>
-     </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/docs.min.js"></script>
+  </body>
+</html>
